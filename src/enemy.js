@@ -6,11 +6,15 @@ export const Enemy = ({pos}) => {
 			style={{
 				width: 40,
 				height: 40,
-				background: 'blue',
+				background: '#eb4034',
 				position: 'absolute',
-				top: pos.top,
-                left: pos.left,
-                zIndex: 2
+				top: pos && pos.top,
+                left: pos && pos.left,
+                zIndex: 1,
+                transition: 'all 0.1s linear',
+                overflow:'hidden',
+				display: pos && pos.direction === 'outOfView' ? 'none' : '',
+				borderRadius:2
 			}}
 		/>
 	);

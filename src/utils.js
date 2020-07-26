@@ -39,7 +39,7 @@ export const handleUserInput = (direction, current, updatePosition) => {
 	if (direction === 'down') updatePosition({ top: current.top + 40, left: current.left });
 };
 
-export const checkCollision = (playerPos, enemyPos) => {
+export const checkCollision = (playerPos, enemyPos, setCollisionHappened) => {
 	enemyPos.forEach((enemy) => {
 		if (
 			playerPos.left < enemy.left + 40 &&
@@ -48,6 +48,7 @@ export const checkCollision = (playerPos, enemyPos) => {
 			playerPos.top + 40 > enemy.top
 		) {
 			console.log('collision!')
+			setCollisionHappened(true)
 		}
 	});
 };
