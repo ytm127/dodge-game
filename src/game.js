@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useKeyPress, handleUserInput, checkCollision } from './utils';
+import { useKeyPress, handleUserInput, checkCollision, getRandomDirection } from './utils';
 import { Player } from './player';
 import { Enemy } from './enemy';
 import { CSSTransition } from 'react-transition-group';
@@ -26,24 +26,15 @@ export const Game = () => {
 	useEffect(
 		() => {
 			const init = setTimeout(() => {
-				const DIRECTIONS = [ 'up', 'right', 'down', 'left' ];
-				const getNewEnemy = (direction) => {
-					if (direction === 'up') return { top: 440, left: playerPosition.left, direction: direction };
-					if (direction === 'right') return { top: playerPosition.top, left: -40, direction: direction };
-					if (direction === 'down') return { top: -40, left: playerPosition.left, direction: direction };
-					if (direction === 'left') return { top: playerPosition.top, left: 440, direction: direction };
-				};
-				const getSecondEnemy = (direction) => {
-					if (direction === 'up') return { top: 600, left: playerPosition.left, direction: direction };
-					if (direction === 'right') return { top: playerPosition.top, left: -180, direction: direction };
-					if (direction === 'down') return { top: -180, left: playerPosition.left, direction: direction };
-					if (direction === 'left') return { top: playerPosition.top, left: 600, direction: direction };
-				};
-				const getThird = (direction) => {
-					if (direction === 'up') return { top: 760, left: playerPosition.left, direction: direction };
-					if (direction === 'right') return { top: playerPosition.top, left: -299, direction: direction };
-					if (direction === 'down') return { top: -299, left: playerPosition.left, direction: direction };
-					if (direction === 'left') return { top: playerPosition.top, left: 760, direction: direction };
+				const getNewEnemy = (direction, offset = 0) => {
+					if (direction === 'up')
+						return { top: 440 + offset, left: playerPosition.left, direction: direction };
+					if (direction === 'right')
+						return { top: playerPosition.top, left: -40 - offset, direction: direction };
+					if (direction === 'down')
+						return { top: -40 - offset, left: playerPosition.left, direction: direction };
+					if (direction === 'left')
+						return { top: playerPosition.top, left: 440 + offset, direction: direction };
 				};
 				let updatedEnemies =
 					enemyPositions &&
@@ -60,43 +51,29 @@ export const Game = () => {
 										? e.left - speed
 										: e.direction === 'right' ? e.left + speed : e.left,
 								direction:
-									e.top > 800 || e.top < -300 || e.left < -300 || e.left + 40 > 800
+									e.top > 560 || e.top < -160 || e.left < -160 || e.left > 560
 										? 'outOfView'
 										: e.direction
 							};
 					});
 				setCount(count + 1);
-				console.log('update game state', count, speed, updatedEnemies);
-				// WAVE 1
+
 				if (count <= 100 && speed !== 15) setSpeed(15);
 				if (count === 150) setSpeed(20);
 				if (count === 200) setSpeed(25);
 				if (count === 250) setSpeed(30);
 				if (count === 350) setSpeed(35);
 				if (count === 400) setSpeed(40);
+
 				if (count % 15 === 0 && count > 20) {
-					if (count < 100) {
-						const randomDirection = DIRECTIONS[Math.floor(Math.random() * Math.floor(3))];
+					if (count > 100 && count % 30 === 0) {
+						let enemyOne = getNewEnemy(getRandomDirection());
+						let enemyTwo = getNewEnemy(getRandomDirection(), 119);
+						setEnemyPositions(updatedEnemies.concat(enemyOne).concat(enemyTwo));
+					} else {
+						const randomDirection = getRandomDirection();
 						let newEnemy = getNewEnemy(randomDirection);
 						setEnemyPositions(updatedEnemies.concat(newEnemy));
-					} else if (count >= 100 && count < 350) {
-						const randomDirection = DIRECTIONS[Math.floor(Math.random() * Math.floor(3))];
-						const randomDirection2 = DIRECTIONS[Math.floor(Math.random() * Math.floor(3))];
-						let a = getNewEnemy(randomDirection);
-						let b = getSecondEnemy(randomDirection2);
-						console.log({ updatedEnemies });
-						let moreEnemies = updatedEnemies.concat(a).concat(b);
-						setEnemyPositions(moreEnemies);
-					} else {
-						const randomDirection = DIRECTIONS[Math.floor(Math.random() * Math.floor(3))];
-						const randomDirection2 = DIRECTIONS[Math.floor(Math.random() * Math.floor(3))];
-						const randomDirection3 = DIRECTIONS[Math.floor(Math.random() * Math.floor(3))];
-						let a = getNewEnemy(randomDirection);
-						let b = getSecondEnemy(randomDirection2);
-						let c = getThird(randomDirection3);
-						updatedEnemies.length === 15 && updatedEnemies.splice(0, 5);
-						let moreEnemies = updatedEnemies.concat(a).concat(b).concat(c);
-						setEnemyPositions(moreEnemies);
 					}
 				} else
 					// DEFAULT
@@ -110,13 +87,13 @@ export const Game = () => {
 			if (collisionHappened) {
 				clearTimeout(init);
 				// RESET GAME
-					setTimeout(() => {
-						setCount(0);
-				setScore(null);
-				setPlayerPosition(PLAYER_POS);
-				setEnemyPositions([]);
-				setCollisionHappned(false);
-					}, 1000);
+				setTimeout(() => {
+					setCount(0);
+					setScore(null);
+					setPlayerPosition(PLAYER_POS);
+					setEnemyPositions([]);
+					setCollisionHappned(false);
+				}, 1000);
 			}
 		},
 		[ enemyPositions ]
@@ -164,24 +141,13 @@ export const Game = () => {
 	);
 
 	return (
-		// <CSSTransition>
 		<div>
-			<div
-				style={{
-					position: 'relative',
-					width: 400,
-					background: 'white',
-					zIndex: 2,
-					margin: 0,
-					fontWeight: 'bold',
-					fontSize: 40
-				}}
-			>
-				{score}
-			</div>
 			<Player playerPosition={playerPosition} collisionHappened={collisionHappened} />
 			<div
 				style={{ background: 'lightgrey', height: 400, width: 400, paddingLeft: 0, border: 'black solid thin' }}
+			/>
+			<div
+				style={{ background: 'white', zIndex:2,  position:'absolute', left: 400, top:0 ,height: 400, width: 300, paddingLeft: 0,}}
 			/>
 			{enemyPositions.map((e, idx) => {
 				return <Enemy pos={e} key={idx} />;
@@ -189,7 +155,7 @@ export const Game = () => {
 
 			<div
 				style={{
-					position: 'relative',
+					position: 'absolute',
 					width: 400,
 					background: 'white',
 					zIndex: 2,
@@ -197,11 +163,9 @@ export const Game = () => {
 					fontSize: 30
 				}}
 			>
-				<div  style={{ transition: 'all 0.1s linear',}}>
-				Session Best: {sessionHighScore}
-				</div>
+				<div style={{ transition: 'all 0.1s linear', height: 30, color:'grey', fontSize:20 }}>{score}</div>
+				<div style={{ transition: 'all 0.1s linear', height: 250 }}>Session Best: {sessionHighScore}</div>
 			</div>
 		</div>
-		// </CSSTransition>
 	);
 };

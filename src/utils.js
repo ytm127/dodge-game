@@ -52,3 +52,6 @@ export const checkCollision = (playerPos, enemyPos, setCollisionHappened) => {
 		}
 	});
 };
+
+const DIRECTIONS = [ 'up', 'right', 'down', 'left' ];
+export const getRandomDirection = () => DIRECTIONS[Math.floor(Math.random() * Math.floor(3))]
