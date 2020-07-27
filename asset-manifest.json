@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/dodge-game/static/css/main.5f361e03.chunk.css",
+    "main.js": "/dodge-game/static/js/main.4707600a.chunk.js",
+    "main.js.map": "/dodge-game/static/js/main.4707600a.chunk.js.map",
+    "runtime-main.js": "/dodge-game/static/js/runtime-main.683c8548.js",
+    "runtime-main.js.map": "/dodge-game/static/js/runtime-main.683c8548.js.map",
+    "static/js/2.7860f909.chunk.js": "/dodge-game/static/js/2.7860f909.chunk.js",
+    "static/js/2.7860f909.chunk.js.map": "/dodge-game/static/js/2.7860f909.chunk.js.map",
+    "index.html": "/dodge-game/index.html",
+    "precache-manifest.851b3ce39e9475253bf4a899ca4544c0.js": "/dodge-game/precache-manifest.851b3ce39e9475253bf4a899ca4544c0.js",
+    "service-worker.js": "/dodge-game/service-worker.js",
+    "static/css/main.5f361e03.chunk.css.map": "/dodge-game/static/css/main.5f361e03.chunk.css.map",
+    "static/js/2.7860f909.chunk.js.LICENSE.txt": "/dodge-game/static/js/2.7860f909.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.683c8548.js",
+    "static/js/2.7860f909.chunk.js",
+    "static/css/main.5f361e03.chunk.css",
+    "static/js/main.4707600a.chunk.js"
+  ]
+}
