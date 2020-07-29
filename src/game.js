@@ -179,19 +179,19 @@ export const Game = () => {
 					background: 'white',
 					zIndex: 2,
 					height: 400,
-					width: 50,
+					width: 40,
 					position:'absolute'
 				}}
 			/>
 			<div
-				style={{ background: 'lightgrey', left:50, position:'absolute' ,height: 400, width: 400, paddingLeft: 0, border: 'black solid thin' }}
+				style={{ background: 'lightgrey', left:40, position:'absolute' ,height: 400, width: 400, paddingLeft: 0, border: 'black solid thin' }}
 			/>
 			<div
 				style={{
 					background: 'white',
 					zIndex: 2,
 					position: 'absolute',
-					left: 450,
+					left: 440,
 					top: 0,
 					height: 400,
 					width: 300,
@@ -220,7 +220,7 @@ export const Game = () => {
 					margin: 0,
 					fontSize: 30,
 					top: 400,
-					left: 50
+					left: 40
 				}}
 			>
 				<div style={{ transition: 'all 0.1s linear', height: 30, color: 'grey', fontSize: 20 }}>{score}</div>
