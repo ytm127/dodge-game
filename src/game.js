@@ -202,7 +202,7 @@ export const Game = () => {
 				Best global score: <div style={{ fontWeight: 'bold' }}>{best && `${best.name} : ${best.score}`}</div>
 				<br/>
 				<div >
-					<input type="input" className='form-control' ref={userInput} style={{ marginBottom: 20, fontSize: 20,  }} />
+					<input type="input" className='form-control' ref={userInput} disabled={isDisabled()} style={{ marginBottom: 20, fontSize: 20,  }} />
 					<button type="button" className='btn btn-primary' onClick={handleClick} disabled={isDisabled()}>
 						<div style={{fontSize:20}}>Save score</div>
 					</button>
@@ -225,12 +225,6 @@ export const Game = () => {
 			>
 				<div style={{ transition: 'all 0.1s linear', height: 30, color: 'grey', fontSize: 20 }}>{score}</div>
 				<div style={{ transition: 'all 0.1s linear', height: 200 }}><p style={{fontSize:20}}>Session Best: {sessionHighScore}</p></div>
-				{/* <div style={{ transition: 'all 0.1s linear', height: 150 }}>
-					<input type="input" ref={userInput} style={{ marginBottom: 20, fontSize: 20 }} />
-					<button type="button" onClick={handleClick} disabled={isDisabled()}>
-						<div style={{fontSize:20}}>Save score</div>
-					</button>
-				</div> */}
 			</div>
 		</div>
 	);
