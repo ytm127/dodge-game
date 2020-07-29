@@ -175,22 +175,38 @@ export const Game = () => {
 		<div>
 			<Player playerPosition={playerPosition} collisionHappened={collisionHappened} />
 			<div
-				style={{ background: 'lightgrey', height: 400, width: 400, paddingLeft: 0, border: 'black solid thin' }}
+				style={{
+					background: 'white',
+					zIndex: 2,
+					height: 400,
+					width: 50,
+					position:'absolute'
+				}}
+			/>
+			<div
+				style={{ background: 'lightgrey', left:50, position:'absolute' ,height: 400, width: 400, paddingLeft: 0, border: 'black solid thin' }}
 			/>
 			<div
 				style={{
 					background: 'white',
 					zIndex: 2,
 					position: 'absolute',
-					left: 400,
+					left: 450,
 					top: 0,
 					height: 400,
 					width: 300,
-					paddingLeft: 0,
-					paddingTop: 20
+					paddingLeft: 30,
+					paddingTop: 20,
 				}}
 			>
 				Best global score: <div style={{ fontWeight: 'bold' }}>{best && `${best.name} : ${best.score}`}</div>
+				<br/>
+				<div >
+					<input type="input" className='form-control' ref={userInput} style={{ marginBottom: 20, fontSize: 20,  }} />
+					<button type="button" className='btn btn-primary' onClick={handleClick} disabled={isDisabled()}>
+						<div style={{fontSize:20}}>Save score</div>
+					</button>
+				</div>
 			</div>
 			{enemyPositions.map((e, idx) => {
 				return <Enemy pos={e} key={idx} />;
@@ -202,17 +218,19 @@ export const Game = () => {
 					background: 'white',
 					zIndex: 2,
 					margin: 0,
-					fontSize: 30
+					fontSize: 30,
+					top: 400,
+					left: 50
 				}}
 			>
 				<div style={{ transition: 'all 0.1s linear', height: 30, color: 'grey', fontSize: 20 }}>{score}</div>
-				<div style={{ transition: 'all 0.1s linear', height: 50 }}>Session Best: {sessionHighScore}</div>
-				<div style={{ transition: 'all 0.1s linear', height: 150 }}>
-					<input type="input" ref={userInput} style={{ marginBottom: 20 }} />
+				<div style={{ transition: 'all 0.1s linear', height: 200 }}><p style={{fontSize:20}}>Session Best: {sessionHighScore}</p></div>
+				{/* <div style={{ transition: 'all 0.1s linear', height: 150 }}>
+					<input type="input" ref={userInput} style={{ marginBottom: 20, fontSize: 20 }} />
 					<button type="button" onClick={handleClick} disabled={isDisabled()}>
-						Save score
+						<div style={{fontSize:20}}>Save score</div>
 					</button>
-				</div>
+				</div> */}
 			</div>
 		</div>
 	);
