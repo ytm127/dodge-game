@@ -1,10 +1,10 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "87420c2164e4a9bb280fb7559005ee7f",
+    "revision": "5585ee1080da032f5c285a2c3dc13db3",
     "url": "/dodge-game/index.html"
   },
   {
-    "revision": "29d0cdf7a8ac3481dfa1",
+    "revision": "7177ebf1b6b59bad62d9",
     "url": "/dodge-game/static/css/main.5f361e03.chunk.css"
   },
   {
@@ -16,8 +16,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/dodge-game/static/js/2.8f457e98.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "29d0cdf7a8ac3481dfa1",
-    "url": "/dodge-game/static/js/main.f36eb84f.chunk.js"
+    "revision": "7177ebf1b6b59bad62d9",
+    "url": "/dodge-game/static/js/main.904e6e2a.chunk.js"
   },
   {
     "revision": "827e0dc6b63b78ac82bc",
