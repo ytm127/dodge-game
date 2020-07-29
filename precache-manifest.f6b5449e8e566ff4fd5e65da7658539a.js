@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "ed0568412b2d972419730177cf42fc92",
+    "revision": "87420c2164e4a9bb280fb7559005ee7f",
     "url": "/dodge-game/index.html"
   },
   {

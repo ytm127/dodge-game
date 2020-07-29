@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/dodge-game/precache-manifest.0a682c06ebccd0ae81a951ff1e8d04a9.js"
+  "/dodge-game/precache-manifest.f6b5449e8e566ff4fd5e65da7658539a.js"
 );
 
 self.addEventListener('message', (event) => {
