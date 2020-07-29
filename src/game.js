@@ -1,8 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useKeyPress, handleUserInput, checkCollision, getRandomDirection } from './utils';
 import { Player } from './player';
 import { Enemy } from './enemy';
 import { CSSTransition } from 'react-transition-group';
+import { createRecord, getAll } from './api';
+import { max } from 'lodash';
 
 export const Game = () => {
 	let PLAYER_POS = {
@@ -10,6 +12,7 @@ export const Game = () => {
 		left: 200
 	};
 
+	const userInput = useRef(null);
 	const [ playerPosition, setPlayerPosition ] = useState(PLAYER_POS);
 	const [ enemyPositions, setEnemyPositions ] = useState([]);
 	const [ count, setCount ] = useState(0);
@@ -17,11 +20,30 @@ export const Game = () => {
 	const [ score, setScore ] = useState(0);
 	const [ collisionHappened, setCollisionHappned ] = useState(false);
 	const [ sessionHighScore, setSessionHighScore ] = useState(0);
+	const [ best, setBest ] = useState(null);
 
 	const arrowLeft = useKeyPress('ArrowLeft');
 	const arrowRight = useKeyPress('ArrowRight');
 	const arrowUp = useKeyPress('ArrowUp');
 	const arrowDown = useKeyPress('ArrowDown');
+
+	const fetchScores = () => {
+		getAll().then((res) => {
+			const arrOfScores = res.map((data) => {return {name: data.data.name, score: data.data.score}});
+			let bestPerson = {name: null, score: 0}
+			arrOfScores.forEach(s => {
+				if(s.score > bestPerson.score){
+					bestPerson['name'] = s.name
+					bestPerson['score'] = s.score
+				}
+			});
+			setBest(bestPerson)
+		});
+	};
+
+	useEffect(() => {
+		fetchScores();
+	}, []);
 
 	useEffect(
 		() => {
@@ -140,6 +162,11 @@ export const Game = () => {
 		[ playerPosition, enemyPositions ]
 	);
 
+	const handleClick = () => {
+		const val = userInput.current.value;
+		createRecord(val, sessionHighScore).then((res) => fetchScores());
+	};
+
 	return (
 		<div>
 			<Player playerPosition={playerPosition} collisionHappened={collisionHappened} />
@@ -147,12 +174,23 @@ export const Game = () => {
 				style={{ background: 'lightgrey', height: 400, width: 400, paddingLeft: 0, border: 'black solid thin' }}
 			/>
 			<div
-				style={{ background: 'white', zIndex:2,  position:'absolute', left: 400, top:0 ,height: 400, width: 300, paddingLeft: 0,}}
-			/>
+				style={{
+					background: 'white',
+					zIndex: 2,
+					position: 'absolute',
+					left: 400,
+					top: 0,
+					height: 400,
+					width: 300,
+					paddingLeft: 0,
+					paddingTop: 20
+				}}
+			>
+				Best global score: <div style={{ fontWeight: 'bold' }}>{best && `${best.name} : ${best.score}`}</div>
+			</div>
 			{enemyPositions.map((e, idx) => {
 				return <Enemy pos={e} key={idx} />;
 			})}
-
 			<div
 				style={{
 					position: 'absolute',
@@ -163,8 +201,14 @@ export const Game = () => {
 					fontSize: 30
 				}}
 			>
-				<div style={{ transition: 'all 0.1s linear', height: 30, color:'grey', fontSize:20 }}>{score}</div>
-				<div style={{ transition: 'all 0.1s linear', height: 250 }}>Session Best: {sessionHighScore}</div>
+				<div style={{ transition: 'all 0.1s linear', height: 30, color: 'grey', fontSize: 20 }}>{score}</div>
+				<div style={{ transition: 'all 0.1s linear', height: 50 }}>Session Best: {sessionHighScore}</div>
+				<div style={{ transition: 'all 0.1s linear', height: 150 }}>
+					<input type="input" ref={userInput} style={{ marginBottom: 20 }} />
+					<button type="button" onClick={handleClick}>
+						Save score
+					</button>
+				</div>
 			</div>
 		</div>
 	);

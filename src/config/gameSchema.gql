@@ -1,0 +1,5 @@
+type Highscore {
+  id: ID!
+  name: String
+  score: Int
+}
