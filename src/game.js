@@ -4,7 +4,7 @@ import { Player } from './player';
 import { Enemy } from './enemy';
 import { CSSTransition } from 'react-transition-group';
 import { createRecord, getAll } from './api';
-import { max } from 'lodash';
+import { get } from 'lodash';
 
 export const Game = () => {
 	let PLAYER_POS = {
@@ -29,15 +29,17 @@ export const Game = () => {
 
 	const fetchScores = () => {
 		getAll().then((res) => {
-			const arrOfScores = res.map((data) => {return {name: data.data.name, score: data.data.score}});
-			let bestPerson = {name: null, score: 0}
-			arrOfScores.forEach(s => {
-				if(s.score > bestPerson.score){
-					bestPerson['name'] = s.name
-					bestPerson['score'] = s.score
+			const arrOfScores = res.map((data) => {
+				return { name: data.data.name, score: data.data.score };
+			});
+			let bestPerson = { name: null, score: 0 };
+			arrOfScores.forEach((s) => {
+				if (s.score > bestPerson.score) {
+					bestPerson['name'] = s.name;
+					bestPerson['score'] = s.score;
 				}
 			});
-			setBest(bestPerson)
+			setBest(bestPerson);
 		});
 	};
 
@@ -167,6 +169,8 @@ export const Game = () => {
 		createRecord(val, sessionHighScore).then((res) => fetchScores());
 	};
 
+	const isDisabled = () => sessionHighScore < get(best, 'score');
+
 	return (
 		<div>
 			<Player playerPosition={playerPosition} collisionHappened={collisionHappened} />
@@ -205,7 +209,7 @@ export const Game = () => {
 				<div style={{ transition: 'all 0.1s linear', height: 50 }}>Session Best: {sessionHighScore}</div>
 				<div style={{ transition: 'all 0.1s linear', height: 150 }}>
 					<input type="input" ref={userInput} style={{ marginBottom: 20 }} />
-					<button type="button" onClick={handleClick}>
+					<button type="button" onClick={handleClick} disabled={isDisabled()}>
 						Save score
 					</button>
 				</div>
